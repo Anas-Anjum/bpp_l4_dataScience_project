@@ -1,0 +1,17 @@
+# Ignore raw data files (keeps large creditcard.csv off GitHub)
+data/raw/*
+!data/raw/.gitkeep
+
+# Ignore processed outputs and database files
+data/processed/*
+!data/processed/.gitkeep
+*.db
+*.parquet
+
+# Ignore Python system caches & environment files
+__pycache__/
+*.pyc
+.env
+venv/
+.vscode/
+.ipynb_checkpoints/
