@@ -1,4 +1,7 @@
-# Executive Summary: Enterprise Credit Card Fraud Detection Pipeline
+
+# Enterprise Credit Card Fraud Detection Pipeline
+
+## Executive Summary: 
 
 As a Data Scientist working at one of the largest banks in the UK, the effects of fraud on the institution and on customers are all too apparent. Whilst there are many rules-based fraud detection systems utilised by the bank, the high false positive rates and inability to dynamically adapt to trends can lead to friction with genuine everyday customers. Using a dataset of anonymised credit card transactions, this project addresses the challenge of creating a model which can detect and predict fraud in an extremely imbalanced dataset where fraud only accounts for 0.172% of total volume (492/284,807). The main goal is to maximise fraud capture (Recall) whilst strictly limiting false positives to preserve systems integrity, operational efficiency and customer trust.This project presents an end-to-end, enterprise-ready credit card fraud detection ecosystem designed to process, transform, and evaluate financial transaction streams under extreme class imbalance.
 
@@ -42,7 +45,7 @@ As a Data Scientist working at one of the largest banks in the UK, the effects o
 
 ---
 
-# 🛠️ ETL Pipeline Architecture
+## 🛠️ ETL Pipeline Architecture
 
 ### 1. Robust Scaling (Amount & Time)
 
@@ -112,7 +115,7 @@ To avoid feature redundancy and keep the dataset lean:
 
 ---
 
-# 📊 Exploratory Data Analytics & Domain Insights
+## 📊 Exploratory Data Analytics & Domain Insights
 
 > 🔗 **Deep Dive:** View the complete, fully documented [Exploratory Data Analysis Notebook](https://www.google.com/search?q=notebooks/01_eda_and_analytics.ipynb) containing step-by-step statistical calculations and visualisations.
 > 
@@ -155,7 +158,7 @@ All exploratory data analysis was conducted on the transformed data extracted di
 
 ---
 
-# ⚙️ Detailed Explanation of Model Types & Implementation Differences
+## ⚙️ Detailed Explanation of Model Types & Implementation Differences
 
 ### 1. How Model Types Work
 
@@ -261,7 +264,7 @@ $$\text{F1-Score} = 2 \times \frac{\text{Precision} \times \text{Recall}}{\text{
 
 ---
 
-# 💰 Business Impact & Financial ROI Quantification
+## 💰 Business Impact & Financial ROI Quantification
 
 To evaluate the real-world value of the automated ETL pipeline and Machine Learning fraud detection model, we translate model performance metrics into financial risk reduction and operational cost savings (Hand, 2007).
 
@@ -350,7 +353,7 @@ Beyond financial risk reduction, automating the data preparation workflow via mo
 
 ---
 
-# 🚀 Future Recommendations: Enterprise Cloud Migration Strategy
+## 🚀 Future Recommendations: Enterprise Cloud Migration Strategy
 
 While the current Python prototype operates efficiently on local batch data, scaling to an enterprise-grade financial fraud system across a major UK bank requires migrating from local single-node processing to a distributed, real-time cloud infrastructure.
 
