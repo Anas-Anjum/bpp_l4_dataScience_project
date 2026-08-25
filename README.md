@@ -1,10 +1,10 @@
 
 # Executive Summary
 As a Data Scientist working at one of the largest banks in the UK, the effects of fraud on the institution and on customers are all too apparent. Whilst there are many rules-based fraud detection systems utilised by the bank, the high false positive rates and inability to dynamically adapt to trends can lead to friction with genuine everyday customers. Using a dataset of anonymised credit card transactions, this project addresses the challenge of creating a model which can detect and predict fraud in an extremely imbalanced dataset where fraud only accounts for 0.172% of total volume (492/284,807). The main goal is to maximise fraud capture (Recall) whilst strictly limiting false positives to preserve systems integrity, operational efficiency and customer trust.
-This project implements an end-to-end data science pipeline built to demonstrate production-grade data engineering, machine learning, and interactive visualization practices:
+This project implements an end-to-end data science pipeline built to demonstrate production-grade data engineering, machine learning, and interactive visualisation practices:
 •	Data Infrastructure & Engineering: Designed an automated ETL1 pipeline using Python (Pandas2, NumPy3, SQLAlchemy4) that ingests raw transaction feeds, applies robust scaling4 to temporal and monetary features, and handles severe class imbalance using SMOTE5 (Synthetic Minority Over-sampling Technique) combined with Tomek Links6.
-•	Analytical Techniques & Modelling: Trained and evaluated multiple anomaly detection and supervised learning models (Logistic Regression, Random Forest, and XGBoost)7. Optimized thresholds using Precision-Recall (PR-AUC)8 curves rather than standard ROC-AUC9 to account for skewness.
-•	Visualization & Reporting: Developed an interactive dashboard (Streamlit / Power BI) displaying key operational KPIs, real-time transaction scoring simulations, and SHAP (SHapley Additive exPlanations) visual insights for model explainability.
+•	Analytical Techniques & Modelling: Trained and evaluated multiple anomaly detection and supervised learning models (Logistic Regression, Random Forest, and XGBoost)7. Optimised thresholds using Precision-Recall (PR-AUC)8 curves rather than standard ROC-AUC9 to account for skewness.
+•	Visualisation & Reporting: Developed an interactive dashboard (Streamlit / Power BI) displaying key operational KPIs, real-time transaction scoring simulations, and SHAP (SHapley Additive exPlanations) visual insights for model explainability.
 
 # ETL Pipline:
 1.	Robust Scaling (Amount & Time)
@@ -13,7 +13,7 @@ Financial transaction amounts are heavily skewed (most purchases are small, but 
 •	How it works: Instead of using the mean and standard deviation, it subtracts the median and divides by the Interquartile Range (IQR) (the spread between the 25th and 75th percentiles).
 •	New columns created: scaled_amount and scaled_time.
 2. Feature Engineering: Cyclic Time Transformation
-The raw dataset stores time as continuous seconds elapsed since the first transaction over a 48-hour period. Machine learning models cannot easily recognize daily recurring fraud patterns from raw seconds.
+The raw dataset stores time as continuous seconds elapsed since the first transaction over a 48-hour period. Machine learning models cannot easily recognise daily recurring fraud patterns from raw seconds.
 Calculation: (Time // 3600) % 24
 How it works: Converts raw seconds into an integer representing the hour of the day (0 through 23).
 New column created: hour_of_day.
@@ -21,7 +21,7 @@ Why it matters: Fraud rates spike at specific times of day (e.g., late-night tra
 3. Redundancy Cleanup & Column Dropping
 To avoid feature redundancy and keep the dataset lean:
 Action: Drops the original unscaled Amount and Time columns.
-Result: Replaces raw values with scaled_amount, scaled_time, and hour_of_day, while preserving the anonymized PCA features (V1 through V28) and target variable (Class).
+Result: Replaces raw values with scaled_amount, scaled_time, and hour_of_day, while preserving the anonymised PCA features (V1 through V28) and target variable (Class).
 
 
 
@@ -32,7 +32,7 @@ Result: Replaces raw values with scaled_amount, scaled_time, and hour_of_day, wh
 Feature	Raw Data (creditcard.csv)	Transformed Data (creditcard_clean.parquet)
 Transaction Amount	Amount (€0.00 to €25,691.16)	scaled_amount (Outlier-resistant zero-centered range)
 Transaction Time	Time (0 to 172,792 seconds)	scaled_time (Scaled) + hour_of_day (0–23 hour integers)
-Anonymized V-Features	V1 to V28	V1 to V28 (Preserved intact)
+Anonymised V-Features	V1 to V28	V1 to V28 (Preserved intact)
 Fraud Label	Class (0 = Legitimate, 1 = Fraud)	Class (Preserved intact)
 
 # 📊 Exploratory Data Analytics & Domain Insights > 🔗 **Deep Dive:** View the complete, fully documented [Exploratory Data Analysis Notebook](notebooks/01_eda_and_analytics.ipynb) containing step-by-step statistical calculations and visualisations.
@@ -60,7 +60,7 @@ All exploratory data analysis was conducted on the transformed data extracted di
 ## 3. Key Predictive Feature Drivers
 ![Feature Correlations](docs/feature_correlations.png)
 
-* **Key Finding:** Anonymized PCA features **`V17`**, **`V14`**, **`V12`**, and **`V10`** show strong negative correlations with fraud, while **`V4`** and **`V11`** show strong positive correlations.
+* **Key Finding:** Anonymised PCA features **`V17`**, **`V14`**, **`V12`**, and **`V10`** show strong negative correlations with fraud, while **`V4`** and **`V11`** show strong positive correlations.
 * **Engineering Impact:** These features provide clear signal-to-noise ratios and serve as top candidate features for classifier training.
 
 ## ⚙️ Detailed Explanation of Model Types & Implementation Differences
@@ -69,19 +69,19 @@ All exploratory data analysis was conducted on the transformed data extracted di
 
 * **Random Forest (`RandomForestClassifier`)**: An **ensemble bagging (bootstrap aggregating) method**. It constructs multiple decision trees in parallel on bootstrapped subsets of the training data and averages their predictions (or takes a majority vote) to reduce variance. It is naturally resistant to overfitting and performs exceptionally well out-of-the-box on structured tabular data.
   * **Reference:** Read the official [`RandomForestClassifier` documentation](https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.RandomForestClassifier.html).
-* **XGBoost (`xgb.XGBClassifier`)**: An **ensemble gradient boosting method**. It constructs decision trees sequentially, where each new tree is built to minimize residual errors made by previous trees using gradient descent on a specified loss function. It typically offers higher predictive power on complex tabular datasets but requires careful hyperparameter tuning.
+* **XGBoost (`xgb.XGBClassifier`)**: An **ensemble gradient boosting method**. It constructs decision trees sequentially, where each new tree is built to minimise residual errors made by previous trees using gradient descent on a specified loss function. It typically offers higher predictive power on complex tabular datasets but requires careful hyperparameter tuning.
   * **Reference:** Read the official [XGBoost Python API Reference](https://xgboost.readthedocs.io/en/stable/python/python_api.html#xgboost.XGBClassifier).
 
 ---
 
 ### 2. How to Code Imbalance Handling: Random Forest vs. XGBoost
 
-Because fraudulent transactions account for only **~0.17%** of instances, standard objective functions default to predicting the majority class. Both libraries handle this using specialized cost-sensitive weighting parameters:
+Because fraudulent transactions account for only **~0.17%** of instances, standard objective functions default to predicting the majority class. Both libraries handle this using specialised cost-sensitive weighting parameters:
 
 | Parameter / Technique | Random Forest Implementation | XGBoost Implementation |
 | :--- | :--- | :--- |
 | **Imbalance Parameter** | `class_weight='balanced'` | `scale_pos_weight = negative_count / positive_count` |
-| **How it Works** | Automatically adjusts class weights inversely proportional to class frequencies during tree node splits: $w_j = \frac{n_{\text{samples}}}{n_{\text{classes}} \times n_j}$. | Scales the gradient calculations for positive instances to heavily penalize missing fraud cases during sequential boosting iterations. |
+| **How it Works** | Automatically adjusts class weights inversely proportional to class frequencies during tree node splits: $w_j = \frac{n_{\text{samples}}}{n_{\text{classes}} \times n_j}$. | Scales the gradient calculations for positive instances to heavily penalise missing fraud cases during sequential boosting iterations. |
 | **Execution Syntax** | `RandomForestClassifier(class_weight='balanced')` | `xgb.XGBClassifier(scale_pos_weight=num_neg/num_pos)` |
 
 * **Documentation Links:**
@@ -103,10 +103,10 @@ A naive classifier that blindly predicts *every* transaction as "Legitimate" ach
 
 * **Precision ($\text{Positive Predictive Value}$)**:
   $$\text{Precision} = \frac{\text{TP}}{\text{TP} + \text{FP}}$$
-  * **Meaning:** Out of all transactions flagged as fraud by the model, how many were actual fraud? High precision minimizes false alarms, avoiding unnecessary account blocks and customer friction.
+  * **Meaning:** Out of all transactions flagged as fraud by the model, how many were actual fraud? High precision minimises false alarms, avoiding unnecessary account blocks and customer friction.
 * **Recall ($\text{Sensitivity / True Positive Rate}$)**:
   $$\text{Recall} = \frac{\text{TP}}{\text{TP} + \text{FN}}$$
-  * **Meaning:** Out of all actual fraudulent transactions that occurred, how many did the model successfully catch? High recall minimizes uncaptured fraud losses and direct financial risk.
+  * **Meaning:** Out of all actual fraudulent transactions that occurred, how many did the model successfully catch? High recall minimises uncaptured fraud losses and direct financial risk.
 * **F1-Score**:
   $$\text{F1-Score} = 2 \times \frac{\text{Precision} \times \text{Recall}}{\text{Precision} + \text{Recall}}$$
   * **Meaning:** The harmonic mean balancing Precision and Recall into a single scalar metric.
