@@ -3,7 +3,7 @@
 
 ## Executive Summary: 
 
-As a Data Scientist working at one of the largest banks in the UK, the effects of fraud on the institution and on customers are all too apparent. Whilst there are many rules-based fraud detection systems utilised by the bank, the high false positive rates and inability to dynamically adapt to trends can lead to friction with genuine everyday customers. Using a dataset of anonymised credit card transactions, this project addresses the challenge of creating a model which can detect and predict fraud in an extremely imbalanced dataset where fraud only accounts for 0.172% of total volume (492/284,807). The main goal is to maximise fraud capture (Recall) whilst strictly limiting false positives to preserve systems integrity, operational efficiency and customer trust.This project presents an end-to-end, enterprise-ready credit card fraud detection ecosystem designed to process, transform, and evaluate financial transaction streams under extreme class imbalance.
+As a Data Scientist working at one of the largest banks in the UK, the effects of fraud on the institution and on customers are all too apparent. Whilst there are many rules-based fraud detection systems utilised by the bank, the high false positive rates and inability to dynamically adapt to trends can lead to friction with genuine everyday customers. Using a dataset of anonymised credit card transactions, this project addresses the challenge of creating a model which can detect and predict fraud in an extremely imbalanced dataset where fraud only accounts for 0.172% of total volume (492/284,807). The main goal is to maximise fraud capture (Recall) whilst strictly limiting false positives to preserve systems integrity, operational efficiency and customer trust. This project presents an end-to-end, enterprise-ready credit card fraud detection ecosystem designed to process, transform, and evaluate financial transaction streams under extreme class imbalance.
 
 ```text
 +-----------------------------------------------------------------------------------+
@@ -92,32 +92,19 @@ To avoid feature redundancy and keep the dataset lean:
 
 ### Before vs. After Transformation
 
+
 | Feature | Raw Data (`creditcard.csv`) | Transformed Data (`creditcard_clean.parquet`) |
 | --- | --- | --- |
-| **Transaction Amount** | `Amount` (€0.00 to €25,691.16)
-
- | `scaled_amount` (Outlier-resistant zero-centred range)
-
- |
-| **Transaction Time** | `Time` (0 to 172,792 seconds)
-
- | `scaled_time` (Scaled) + `hour_of_day` (0–23 hour integers)
-
- |
-| **Anonymised V-Features** | `V1` to `V28`<br> | `V1` to `V28` (Preserved intact)
-
- |
-| **Fraud Label** | `Class` (0 = Legitimate, 1 = Fraud)
-
- | `Class` (Preserved intact)
-
- |
+| **Transaction Amount** | `Amount` (€0.00 to €25,691.16) | `scaled_amount` (Outlier-resistant zero-centred range) |
+| **Transaction Time** | `Time` (0 to 172,792 seconds) | `scaled_time` (Scaled) + `hour_of_day` (0–23 hour integers) |
+| **Anonymised V-Features** | `V1` to `V28` | `V1` to `V28` (Preserved intact) |
+| **Fraud Label** | `Class` (0 = Legitimate, 1 = Fraud) | `Class` (Preserved intact) |
 
 ---
 
 ## 📊 Exploratory Data Analytics & Domain Insights
 
-> 🔗 **Deep Dive:** View the complete, fully documented [Exploratory Data Analysis Notebook](https://www.google.com/search?q=notebooks/01_eda_and_analytics.ipynb) containing step-by-step statistical calculations and visualisations.
+> 🔗 **Deep Dive:** View the complete, fully documented [Exploratory Data Analysis Notebook](notebooks\01_eda_and_analytics.ipynb) containing step-by-step statistical calculations and visualisations.
 > 
 > 
 
@@ -316,7 +303,7 @@ In credit card fraud detection, classification errors carry asymmetric financial
  | **€140.00**<br> | **€1,960.00 Operational Savings**<br> |
 | **Total Net Cost** | **€9,799.23**<br> | **€1,973.15**<br> | **€7,826.08 Net Savings (Test Set)**<br> |
 
-* **Reference Link:** Read the Scikit-learn guide on [Cost-Sensitive Learning and Decision Threshold Tuning](https://www.google.com/search?q=https://scikit-learn.org/stable/modules/model_evaluation.html%23cost-sensitive-learning).
+* **Reference Link:** Read the Scikit-learn guide on [Cost-Sensitive Learning and Decision Threshold Tuning](https://scikit-learn.org/stable/modules/model_evaluation.html#cost-sensitive-learning).
 
 
 
@@ -390,10 +377,6 @@ To handle multi-million daily transaction streams, reduce detection latency, and
 
 
 * **Snowflake (Enterprise Data Lakehouse):** Replaces SQLite to provide independent scaling of compute and storage (Dageville et al., 2016). This allows operational analytics and ad-hoc SQL investigations by fraud analysts to run concurrently without impacting production scoring performance.
-
-
-* **Reference:** Learn more about [Snowflake Data Cloud Architecture](https://www.google.com/search?q=https://www.snowflake.com/en/data-cloud/architecture/).
-
 
 
 
