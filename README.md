@@ -1,6 +1,6 @@
 # Executive Summary: Enterprise Credit Card Fraud Detection Pipeline
 
-This project presents an end-to-end, enterprise-ready credit card fraud detection ecosystem designed to process, transform, and evaluate financial transaction streams under extreme class imbalance. Developed with a focus on deployment within a major UK retail bank's Economic Crime department, the pipeline bridges local batch processing with cloud-scalable architectures.
+As a Data Scientist working at one of the largest banks in the UK, the effects of fraud on the institution and on customers are all too apparent. Whilst there are many rules-based fraud detection systems utilised by the bank, the high false positive rates and inability to dynamically adapt to trends can lead to friction with genuine everyday customers. Using a dataset of anonymised credit card transactions, this project addresses the challenge of creating a model which can detect and predict fraud in an extremely imbalanced dataset where fraud only accounts for 0.172% of total volume (492/284,807). The main goal is to maximise fraud capture (Recall) whilst strictly limiting false positives to preserve systems integrity, operational efficiency and customer trust.This project presents an end-to-end, enterprise-ready credit card fraud detection ecosystem designed to process, transform, and evaluate financial transaction streams under extreme class imbalance.
 
 ```text
 +-----------------------------------------------------------------------------------+
