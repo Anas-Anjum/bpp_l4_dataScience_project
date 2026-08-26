@@ -59,7 +59,8 @@ Financial transaction amounts are heavily skewed (most purchases are small, but 
 
 * **New columns created**: `scaled_amount` and `scaled_time`.
 
-
+### ETL Diagram
+![ETL Pipeline Diagram](<docs/ETL Pipeline Diagram.drawio.png>)
 
 ### 2. Feature Engineering: Cyclic Time Transformation
 
