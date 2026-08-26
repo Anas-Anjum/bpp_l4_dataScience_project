@@ -3,7 +3,7 @@
 
 ## Executive Summary: 
 
-As a Data Scientist working at one of the largest banks in the UK, the effects of fraud on the institution and on customers are all too apparent. Whilst there are many rules-based fraud detection systems utilised by the bank, the high false positive rates and inability to dynamically adapt to trends can lead to friction with genuine everyday customers. Using a dataset of anonymised credit card transactions, this project addresses the challenge of creating a model which can detect and predict fraud in an extremely imbalanced dataset where fraud only accounts for 0.172% of total volume (492/284,807). The main goal is to maximise fraud capture (Recall) whilst strictly limiting false positives to preserve systems integrity, operational efficiency and customer trust. This project presents an end-to-end, enterprise-ready credit card fraud detection ecosystem designed to process, transform, and evaluate financial transaction streams under extreme class imbalance.
+As a Data Scientist working at one of the largest banks in the UK, the effects of fraud on the institution and on customers are all too apparent. Whilst there are many rules-based fraud detection systems utilised by the bank, the high false -positive rates and inability to dynamically adapt to trends can lead to friction with genuine everyday customers. Using a dataset of anonymised credit card transactions, this project addresses the challenge of creating a model which can detect and predict fraud in an extremely imbalanced dataset where fraud only accounts for 0.172% of total volume (492/284,807). The main goal is to maximise fraud capture (Recall) whilst strictly limiting false positives to preserve systems integrity, operational efficiency and customer trust. This project presents an end-to-end, enterprise-ready credit card fraud detection ecosystem designed to process, transform, and evaluate financial transaction streams under extreme class imbalance.
 
 ```text
 +-----------------------------------------------------------------------------------+
@@ -12,8 +12,8 @@ As a Data Scientist working at one of the largest banks in the UK, the effects o
 | Core Objective                     | Automated Fraud Ingestion, Transformation &  |
 |                                    | Machine Learning Classification              |
 +------------------------------------+----------------------------------------------+
-| Primary Class Imbalance            | 99.83% Legitimate (€284,315) vs.             |
-|                                    | 0.17% Fraudulent (€492)                      |
+| Primary Class Imbalance            | 99.83% Legitimate (284,315) vs.             |
+|                                    | 0.17% Fraudulent (492)                      |
 +------------------------------------+----------------------------------------------+
 | Best Model Baseline                | Random Forest Classifier (PR-AUC: 0.85+)     |
 +------------------------------------+----------------------------------------------+
@@ -59,7 +59,8 @@ Financial transaction amounts are heavily skewed (most purchases are small, but 
 
 * **New columns created**: `scaled_amount` and `scaled_time`.
 
-
+### ETL Diagram
+![ETL Pipeline Diagram](<docs/ETL Pipeline Diagram.drawio.png>)
 
 ### 2. Feature Engineering: Cyclic Time Transformation
 
@@ -114,7 +115,7 @@ All exploratory data analysis was conducted on the transformed data extracted di
 
 ### 1. Extreme Class Imbalance Analysis
 
-* **Key Finding:** The dataset exhibits extreme class imbalance: **99.83% Legitimate** (€284,315 transactions) vs. **0.17% Fraudulent** (€492 transactions).
+* **Key Finding:** The dataset exhibits extreme class imbalance: **99.83% Legitimate** (284,315 transactions) vs. **0.17% Fraudulent** (492 transactions).
 
 
 * **Analytical Impact:** Standard evaluation metrics like accuracy are misleading (a dummy model predicting 'Legitimate' achieves 99.83% accuracy). Downstream models must be evaluated using **Precision-Recall AUC (PR-AUC)** and **F1-Score**.
@@ -409,7 +410,6 @@ In my daily work, **LightGBM** is our primary gradient boosting framework of cho
 
 
 * **Reducing Operational Noise for Analysts:** One of the biggest challenges my team faces is alert fatigue caused by false positives. By optimising PR-AUC and decision thresholds, this model architecture directly targets a reduction in unnecessary account freezes, saving valuable analyst time for high-risk investigations while improving the overall banking experience for legitimate customers.
-
 
 
 ---
