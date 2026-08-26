@@ -59,8 +59,6 @@ Financial transaction amounts are heavily skewed (most purchases are small, but 
 
 * **New columns created**: `scaled_amount` and `scaled_time`.
 
-### ETL Diagram
-![ETL Pipeline Diagram](<docs/ETL Pipeline Diagram.drawio.png>)
 
 ### 2. Feature Engineering: Cyclic Time Transformation
 
@@ -100,6 +98,10 @@ To avoid feature redundancy and keep the dataset lean:
 | **Transaction Time** | `Time` (0 to 172,792 seconds) | `scaled_time` (Scaled) + `hour_of_day` (0–23 hour integers) |
 | **Anonymised V-Features** | `V1` to `V28` | `V1` to `V28` (Preserved intact) |
 | **Fraud Label** | `Class` (0 = Legitimate, 1 = Fraud) | `Class` (Preserved intact) |
+
+### ETL Diagram
+![ETL Pipeline Diagram](<docs/ETL Pipeline Diagram.drawio.png>)
+
 
 ---
 
